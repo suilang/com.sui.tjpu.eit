@@ -12,7 +12,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 
 import com.sui.tjpu.eit.Activator;
-
+/**
+ * 加载像素值的位置信息，分为X和Y
+ * 
+ * @author 碎.浪
+ *
+ */
 public class LoadXY{
 	
 	double[] temp=null;
