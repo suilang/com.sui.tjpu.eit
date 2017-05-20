@@ -9,3 +9,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.jogamp.jogl;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: 3rdpart/Jama-1.0.2.jar,
+ .

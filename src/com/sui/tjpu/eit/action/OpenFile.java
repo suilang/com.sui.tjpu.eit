@@ -35,6 +35,10 @@ public class OpenFile {
 			fileDialog.setFilterExtensions(new String[] { "*.txt" });
 			fileDialog.setFilterNames(new String[] { "Textfiles(*.txt)" });
 		}
+		if (type.equals("sl")) {
+			fileDialog.setFilterExtensions(new String[] { "*.sl" });
+			fileDialog.setFilterNames(new String[] { "Textfiles(*.sl)" });
+		}
 		select = fileDialog.open();
 		;
 	}

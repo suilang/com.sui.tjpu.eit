@@ -10,22 +10,29 @@ import org.osgi.framework.Bundle;
 
 
 
-
+/**
+ * 作用：存储配置页面的参数
+ * 
+ * 
+ * 
+ * 
+ * @author 张鹏程
+ *
+ */
 public class MyConfigureModel{
 	
 	private String cirsText;
 	private String kongText;
 	private String wuText;
-	private String amplify;
-	private String[] algorithm={"迭代","单步","预迭代"};
+	
 	
 	public MyConfigureModel(){
 		this.cirsText="";
 		this.kongText="";
 		this.wuText="";
-		this.amplify="5000";
+		
 		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
-		URL url_cirs= bundle.getResource("Source/Cirs.txt");
+		URL url_cirs= bundle.getResource("Source/Cirs.sl");
 		try {
 			File file=new File(FileLocator.toFileURL(url_cirs).getPath());
 			if (file.isFile() && file.exists()) { // 判断文件是否存在
@@ -37,7 +44,7 @@ public class MyConfigureModel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		URL url_kong= bundle.getResource("Source/kong.txt");
+		URL url_kong= bundle.getResource("Source/kong.sl");
 		try {
 			File file=new File(FileLocator.toFileURL(url_kong).getPath());
 			if (file.isFile() && file.exists()) { // 判断文件是否存在
@@ -82,19 +89,5 @@ public class MyConfigureModel{
 		this.wuText = wuText;
 	}
 
-	public String getAmplify() {
-		return amplify;
-	}
-
-	public void setAmplify(String amplify) {
-		this.amplify = amplify;
-	}
 	
-	public String[] getCombStr() {
-		return algorithm;
-	}
-
-	public void setCombStr(String[] algorithm) {
-		this.algorithm = algorithm;
-	}
 }

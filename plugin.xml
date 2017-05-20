@@ -64,6 +64,7 @@
       </view>
       <view
             class="com.sui.tjpu.eit.ShowImage"
+            icon="icons/alt_window_16.gif"
             id="com.sui.tjpu.eit.showimage"
             name="Reconstruction"
             restorable="true">
@@ -72,6 +73,12 @@
             class="com.sui.tjpu.eit.Configure"
             id="com.sui.tjpu.eit.configure"
             name="configure"
+            restorable="true">
+      </view>
+      <view
+            class="com.sui.tjpu.eit.Control"
+            id="com.sui.tjpu.eit.control"
+            name="Control"
             restorable="true">
       </view>
    </extension>
@@ -84,7 +91,32 @@
                id="com.sui.tjpu.eit.showimage"
                minimized="false"
                moveable="true"
-               relationship="stack"
+               ratio="0.72f"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               standalone="false"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="com.sui.tjpu.eit.configure"
+               minimized="false"
+               moveable="true"
+               ratio="0.3f"
+               relationship="top"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               standalone="false"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="com.sui.tjpu.eit.control"
+               minimized="false"
+               moveable="true"
+               ratio="0.65f"
+               relationship="bottom"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
                standalone="false"

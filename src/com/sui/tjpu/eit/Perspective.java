@@ -7,5 +7,9 @@ public class Perspective implements IPerspectiveFactory {
 
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible( false );
+//		 String editorArea = layout.getEditorArea();
+//		 layout.addView(ShowImage.ID, IPageLayout.LEFT, 0.7f, editorArea);
+//		 layout.addView(Configure.ID, IPageLayout.BOTTOM, 0.3f, editorArea);
+		
 	}
 }
