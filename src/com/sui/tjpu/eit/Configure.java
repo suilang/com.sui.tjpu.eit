@@ -1,6 +1,8 @@
 package com.sui.tjpu.eit;
 
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -19,6 +21,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import Jama.Matrix;
+
 import com.sui.tjpu.eit.action.OpenFile;
 
 public class Configure extends ViewPart {
@@ -32,7 +36,7 @@ public class Configure extends ViewPart {
 	
 	private ShowImage showimg;
 	private Control control;
-	private MyCalculateParameter mycalpara;
+	
 	
 	
 	public Configure() {
@@ -45,7 +49,7 @@ public class Configure extends ViewPart {
 		control=(Control)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("com.sui.tjpu.eit.control");
 		
 		myconf=new MyConfigureModel();
-		mycalpara=new MyCalculateParameter();
+		
 		
 		
 		
@@ -73,6 +77,12 @@ public class Configure extends ViewPart {
 		GridData gd_cirs = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
 		gd_cirs.widthHint = 130;
 		cirs.setLayoutData(gd_cirs);
+		if(myconf.getCirsText()!=null){
+			cirs.setText(myconf.getCirsText());
+			OpenFile of=new OpenFile();
+			Matrix Cirs=of.LoadCirs(myconf.getCirsText());
+			control.setCirs(Cirs);
+		}
 		
 		Button cirsButton = new Button(composite, SWT.NONE);
 		GridData gd_cirsButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
@@ -86,10 +96,10 @@ public class Configure extends ViewPart {
 				OpenFile of=new OpenFile();
 				of.LoadFile(parentShell, "sl");
 				if(of.getSelect()!=null){
-					mycalpara.setCirs(of.LoadCirs(of.getSelect()));
-					if(mycalpara.getCirs()!=null){
+					Matrix Cirs=of.LoadCirs(of.getSelect());
+					if(Cirs!=null){
 						cirs.setText(of.getSelect());
-						control.setCirs(mycalpara.getCirs());
+						control.setCirs(Cirs);
 					}
 				}
 					
@@ -106,6 +116,12 @@ public class Configure extends ViewPart {
 		GridData gd_kong = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
 		gd_kong.widthHint = 130;
 		kong.setLayoutData(gd_kong);
+		if(myconf.getKongText()!=null){
+			kong.setText(myconf.getKongText());
+			OpenFile of=new OpenFile();
+			Matrix Kong=of.Loadkong(myconf.getKongText());
+			control.setKong(Kong);
+		}
 		
 		Button kongButton = new Button(composite, SWT.NONE);
 		GridData gd_kongButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
@@ -120,10 +136,10 @@ public class Configure extends ViewPart {
 				OpenFile of=new OpenFile();
 				of.LoadFile(parentShell, "sl");
 				if(of.getSelect()!=null){
-					mycalpara.setKong(of.Loadkong(of.getSelect()));
-					if(mycalpara.getKong()!=null){
+					Matrix Kong=of.Loadkong(of.getSelect());
+					if(Kong!=null){
 						kong.setText(of.getSelect());
-						control.setKong(mycalpara.getKong());
+						control.setKong(Kong);
 					}
 				}
 					
@@ -154,10 +170,10 @@ public class Configure extends ViewPart {
 				OpenFile of=new OpenFile();
 				of.LoadFile(parentShell, "sl");
 				if(of.getSelect()!=null){
-					mycalpara.setWu(of.Loadwu(of.getSelect()));
-					if(mycalpara.getWu()!=null){
+					ArrayList Wu=of.Loadwu(of.getSelect());
+					if(Wu!=null){
 						wu.setText(of.getSelect());
-						control.setWubuf(mycalpara.getWu());
+						control.setWubuf(Wu);
 					}
 				}
 					

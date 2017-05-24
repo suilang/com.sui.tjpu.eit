@@ -9,6 +9,7 @@ public class MyControlModel{
 		
 		this.amplify="5000";
 		
+		
 	}
 	
 	public String getAmplify() {

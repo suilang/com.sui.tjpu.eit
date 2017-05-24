@@ -30,6 +30,9 @@ public class Control extends ViewPart {
 	private int Ite_number;
 	
 	private MyControlModel mycontrol;
+	
+	private MyCalculateParameter mycalpara;
+	
 	public Matrix getCirs() {
 		return Cirs;
 	}
@@ -78,7 +81,7 @@ public class Control extends ViewPart {
 		// TODO Auto-generated method stub
 		
 		mycontrol=new MyControlModel();
-		
+		mycalpara=new MyCalculateParameter(this);
 		Composite composite1 = new Composite(parent, SWT.NONE);
 		composite1.setLayout(new FormLayout());
 		
@@ -123,8 +126,13 @@ public class Control extends ViewPart {
 			}
 		});
 		btnNewButton.setText("Entry");
+		
+		
 	}
 
+	public void ParamAllDone(){
+		
+	}
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
