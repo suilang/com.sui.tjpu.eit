@@ -4,7 +4,19 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import Jama.Matrix;
-
+/**
+ * 描述：重建图像运算参数以及加载标志位，对应离线重建，标志位指示各参数加载完成，可以进行运算。
+ * 
+ * Cirs：灵敏度矩阵，Matrix类型
+ * kong：空场矩阵，Matrix类型
+ * wu：物场矩阵列表，ArrayList类型
+ * CirsFlag：灵敏度矩阵加载完成标志位，boolean类型
+ * kongFlag：空场矩阵加载完成标志位，boolean类型
+ * wuFlag：物场矩阵列表加载完成标志位，boolean类型
+ * 
+ * @author 张鹏程
+ *
+ */
 public class MyCalculateParameter {
 	
 	private Matrix Cirs;
@@ -23,8 +35,8 @@ public class MyCalculateParameter {
 		return Cirs;
 	}
 	public void setCirs(Matrix cirs) {
-		Cirs = cirs;
-		this.CirsFlag=true;
+		this.Cirs = cirs;
+		CirsFlag=true;
 		 JudgeAll();
 	}
 	public Matrix getKong() {
