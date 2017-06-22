@@ -25,6 +25,7 @@ public class LoadXY{
 	int Index;
 	
 	public double[] position_x(){
+		temp=new double[812];
 		File file;
 		String path = null;
 		String str;
@@ -61,6 +62,7 @@ public class LoadXY{
 	
 	}
 	public double[] position_y(){
+		temp=new double[812];
 		File file;
 		String path = null;
 		String str;

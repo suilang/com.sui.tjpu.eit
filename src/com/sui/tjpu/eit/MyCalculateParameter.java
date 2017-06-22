@@ -22,6 +22,14 @@ public class MyCalculateParameter {
 	private Matrix Cirs;
 	private Matrix kong;
 	private ArrayList wu;
+	private double[][] paintdate;
+	private Matrix b;
+
+	static  double[] paint_X,paint_Y;
+
+	
+
+
 	private boolean CirsFlag=false;
 	private boolean kongFlag=false;
 	private boolean wuFlag=false;
@@ -48,15 +56,42 @@ public class MyCalculateParameter {
 		 JudgeAll();
 	}
 	
-	public ArrayList getWu() {
+	public ArrayList getWubuf() {
 		return wu;
 		
 	}
-	public void setWu(ArrayList wu) {
+	public void setWubuf(ArrayList wu) {
 		this.wu = wu;
 		wuFlag=true;
 		 JudgeAll();
 	}
+	
+	public double[][] getPaintdate() {
+		return paintdate;
+	}
+	public void setPaintdate(double[][] paintdate) {
+		this.paintdate = paintdate;
+	}
+	
+	public Matrix getB(int index) {
+		b=new Matrix((double[][]) wu.get(index));
+		b=b.minus(kong);
+		return b;
+	}
+	
+	public double[] getPaint_X() {
+		return paint_X;
+	}
+	public void setPaint_X(double[] paint_X) {
+		this.paint_X = paint_X;
+	}
+	public double[] getPaint_Y() {
+		return paint_Y;
+	}
+	public void setPaint_Y(double[] paint_Y) {
+		this.paint_Y = paint_Y;
+	}
+	
 	
 	private void JudgeAll(){
 		if(CirsFlag=true && kongFlag == true && wuFlag == true){

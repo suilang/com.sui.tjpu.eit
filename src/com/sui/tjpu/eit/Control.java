@@ -15,48 +15,36 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
+import com.sui.tjpu.eit.action.Calculate;
 
 import Jama.Matrix;
 
 public class Control extends ViewPart {
 
-	private Matrix Cirs;
-	private Matrix kong;
-	private Matrix wu;
-	private ArrayList wubuf;
 	
 	private Text amplifyText;	
+	private int amplify;
 	private int Ite_number;
 	
 	private MyControlModel mycontrol;
-	
+	private ShowImage showImage;
 	private MyCalculateParameter mycalpara;
 	
-	public Matrix getCirs() {
-		return Cirs;
-	}
-
-	public void setCirs(Matrix cirs) {
-		Cirs = cirs;
-	}
-
-	public Matrix getKong() {
-		return kong;
-	}
-
-	public void setKong(Matrix kong) {
-		this.kong = kong;
-	}
-
-	public Matrix getWu() {
-		return wu;
-	}
-
-	public void setWu(Matrix wu) {
-		this.wu = wu;
-	}
 	
+
+	private Calculate calculate;
+	
+	public MyCalculateParameter getMycalpara() {
+		return mycalpara;
+	}
+
+	public void setMycalpara(MyCalculateParameter mycalpara) {
+		this.mycalpara = mycalpara;
+	}
+
 	public int getIte_number() {
 		return Ite_number;
 	}
@@ -65,16 +53,27 @@ public class Control extends ViewPart {
 		Ite_number = ite_number;
 	}
 	
-	public ArrayList getWubuf() {
-		return wubuf;
+	public int getAmplify(){
+		 amplify=Integer.parseInt(mycontrol.getAmplify());
+		return amplify;
+		
 	}
-
-	public void setWubuf(ArrayList wubuf) {
-		this.wubuf = wubuf;
+	
+	public void setShowImage(ShowImage showImage){
+		this.showImage=showImage;
 	}
+//	public ArrayList getWubuf() {
+//		return wubuf;
+//	}
+//
+//	public void setWubuf(ArrayList wubuf) {
+//		this.wubuf = wubuf;
+//	}
 	
 	public Control() {
 		// TODO Auto-generated constructor stub
+		
+		
 	}
 
 	public void createPartControl(Composite parent) {
@@ -123,6 +122,7 @@ public class Control extends ViewPart {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 		
 			public void widgetSelected(SelectionEvent e) {
+				mycontrol.setAmplify(amplifyText.getText());
 			}
 		});
 		btnNewButton.setText("Entry");
@@ -131,11 +131,13 @@ public class Control extends ViewPart {
 	}
 
 	public void ParamAllDone(){
-		
+		calculate=new Calculate(mycalpara.getCirs());
+		mycalpara.setPaintdate(calculate.cgls(mycalpara.getCirs(), mycalpara.getB(0), 40));
+		showImage.runpaint();
 	}
 	public void setFocus() {
 		// TODO Auto-generated method stub
-
+        showImage.runpaint();
 	}
 
 }

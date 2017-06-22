@@ -21,11 +21,22 @@ public class Calculate {
 	Matrix alpha_temp, alpha_temp1, beta_temp;
 	double al_temp;
 
+	public Calculate(){
+		
+	}
 	public Calculate(Matrix A) {
 		AT = A.transpose();
 	}
 
-	/**
+/**
+  *共轭梯度法
+  *传入值：
+  *    矩阵A：灵敏度矩阵
+  *    矩阵b：测量电压值
+  *    k：迭代次数
+  *返回值：
+  *    result：812*1的二维数组
+  *
   *
   */
 	public double[][] cgls(Matrix A, Matrix b, int k) {
@@ -58,6 +69,7 @@ public class Calculate {
 		}
 
 		result = x.getArrayCopy();
+		
 		return result;
 
 	}

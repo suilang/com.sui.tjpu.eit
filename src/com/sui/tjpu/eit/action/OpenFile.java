@@ -67,7 +67,15 @@ public class OpenFile {
 
 				while (in.hasNextLine()) {
 					str = in.nextLine();
-					splitt(A, str, line, row);
+					//splitt(A, str, line, row);
+					if (row < 812) {
+						A[line][row] = Double.parseDouble(str);
+						line++;
+						if (line == 208) {
+							line = 0;
+							row++;
+						}
+					}
 				}
 				result = new Matrix(A);
 			} catch (FileNotFoundException e) {
