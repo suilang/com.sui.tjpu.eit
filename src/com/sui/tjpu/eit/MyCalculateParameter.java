@@ -24,6 +24,10 @@ public class MyCalculateParameter {
 	private ArrayList wu;
 	private double[][] paintdate;
 	private Matrix b;
+	private int Ite_number;
+	private int amplify;
+	private int currentIndex=0; // 当前帧数
+	private int totalIndex=1; // 总帧数
 
 	static  double[] paint_X,paint_Y;
 
@@ -33,11 +37,16 @@ public class MyCalculateParameter {
 	private boolean CirsFlag=false;
 	private boolean kongFlag=false;
 	private boolean wuFlag=false;
+	private boolean allFlag=false;
 	
+
 	private Control control;
 	
 	public MyCalculateParameter(Control control){
 		this.control=control;
+		this.amplify=5000;
+		this.Ite_number=40;
+		this.paintdate=zeros();
 	}
 	public Matrix getCirs() {
 		return Cirs;
@@ -63,18 +72,23 @@ public class MyCalculateParameter {
 	public void setWubuf(ArrayList wu) {
 		this.wu = wu;
 		wuFlag=true;
+		totalIndex=wu.size();
 		 JudgeAll();
 	}
 	
 	public double[][] getPaintdate() {
+		
 		return paintdate;
+		
 	}
 	public void setPaintdate(double[][] paintdate) {
 		this.paintdate = paintdate;
+		
 	}
 	
-	public Matrix getB(int index) {
-		b=new Matrix((double[][]) wu.get(index));
+	public Matrix getB() {
+	
+		b=new Matrix((double[][]) wu.get(currentIndex));
 		b=b.minus(kong);
 		return b;
 	}
@@ -92,11 +106,64 @@ public class MyCalculateParameter {
 		this.paint_Y = paint_Y;
 	}
 	
+	public int getIte_number() {
+		return Ite_number;
+	}
+
+	public void setIte_number(int ite_number) {
+		Ite_number = ite_number;
+	}
+	
+	public int getAmplify() {
+		return amplify;
+	}
+	public void setAmplify(int amplify) {
+		this.amplify = amplify;
+	}
+	
+	public boolean isAllFlag() {
+		return allFlag;
+	}
+	
+	public int getCurrentIndex() {
+		return currentIndex;
+	}
+
+	public void setCurrentIndex(int currentIndex) {
+		this.currentIndex = currentIndex;
+	}
+	
+	public void changeCurrentIndex(boolean flag){
+		if(flag){
+			currentIndex++;
+			if(currentIndex>(totalIndex-1)){
+				currentIndex=0;
+			}
+		}else{
+			currentIndex--;
+			if(currentIndex<0){
+				currentIndex=totalIndex-1;
+			}
+		}
+	}
+	public int getTotalIndex() {
+		return totalIndex;
+	}
 	
 	private void JudgeAll(){
 		if(CirsFlag=true && kongFlag == true && wuFlag == true){
+			allFlag=true;
 			control.ParamAllDone();
 		}
+	}
+	
+	public double[][] zeros(){
+		double[][] result=new double[812][1]; 
+		for(int i=0;i<812;i++){
+			result[i][0]=0;
+		}
+		return result;
+		
 	}
 	
 }

@@ -1,5 +1,7 @@
 package com.sui.tjpu.eit;
 
+
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
@@ -15,12 +17,15 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
@@ -48,11 +53,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     public void postWindowOpen() { 
     	super.postWindowOpen();
     	window = getWindowConfigurer().getWindow();
-    	
+    
     	Rectangle screenSize =Display.getDefault().getClientArea();//获得屏幕大小和程序窗口大小
     	Rectangle clientSize=window.getShell().getBounds();    
     	window.getShell().setLocation((screenSize.width-clientSize.width)/2, (screenSize.height-clientSize.height)/2);//使程序窗口放在屏幕中心
-   
+    	
     	trayItem = initTaskItem(window); 
 	    if (trayItem != null) {
 	    	createMinimize(); // Create exit and about action on the icon

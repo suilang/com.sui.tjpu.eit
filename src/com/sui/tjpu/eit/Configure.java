@@ -30,6 +30,8 @@ public class Configure extends ViewPart {
 	public static final String ID = "com.sui.tjpu.eit.configure";
 
 	private MyConfigureModel myconf;
+	
+
 	private Text cirs;
 	private Text kong;
 	private Text wu;
@@ -37,7 +39,22 @@ public class Configure extends ViewPart {
 
 	private Control control;
 	private MyCalculateParameter mycalpara;
-
+    private Online online;
+	
+	public MyConfigureModel getMyconf() {
+		return myconf;
+	}
+	
+	public void ConnLocal(){
+		
+	}
+	
+	public void ConnOnline(){
+		
+		online = new Online(myconf);
+	
+	}
+	
 	public Configure() {
 		// TODO Auto-generated constructor stub
 		control = (Control) PlatformUI.getWorkbench()

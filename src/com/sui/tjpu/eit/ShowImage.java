@@ -1,6 +1,10 @@
 package com.sui.tjpu.eit;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.opengl.GLCanvas;
@@ -30,7 +34,7 @@ public class ShowImage extends ViewPart{
 
 	private Control control;
 	private MyCalculateParameter mycalpara;
-	private Calculate calculate;
+	
 	private Composite composite;
 
 	/** Widget that displays OpenGL content. */
@@ -42,18 +46,27 @@ public class ShowImage extends ViewPart{
 	float[] rgb;
 	int rot = 0;
     double[][] paintdate;
+    RunPaint runpaint;
+    
+	public RunPaint getRunpaint() {
+		return runpaint;
+	}
+
 	public ShowImage() {
 		// TODO Auto-generated constructor stub
 		control = (Control) PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage()
 				.findView("com.sui.tjpu.eit.control");
 		control.setShowImage(this);
+		mycalpara = control.getMycalpara();
 		//calculate = new Calculate();
+		runpaint=new RunPaint(this,control);
+		
 	}
 
 	public void createPartControl(Composite parent) {
 		
-		mycalpara = control.getMycalpara();
+		
 		// TODO Auto-generated method stub
 		GLProfile glprofile = GLProfile.get(GLProfile.GL2);
 
@@ -74,29 +87,33 @@ public class ShowImage extends ViewPart{
 				glcanvas.setCurrent();
 				glcontext.makeCurrent();
 				GL2 gl = glcontext.getGL().getGL2();
-				gl.glViewport(0, 0, bounds.width, bounds.height);
-				gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-				gl.glLoadIdentity();
-				GLU glu = new GLU();
-				glu.gluPerspective(45.0f, fAspect, 0.5f, 400.0f);
-				gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
-				gl.glLoadIdentity();
-				glcontext.release();
+				 gl.glViewport(0, 0, bounds.width, bounds.height);
+	                gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
+	                gl.glLoadIdentity();
+	                
+	                GLU glu = new GLU();
+	                glu.gluOrtho2D(-50*fAspect, 50*fAspect, -50,50); 
+//	                glu.gluPerspective(45.0f, fAspect, 0.5f, 400.0f);
+	                gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+	                gl.glLoadIdentity();
+	                glcontext.release();
+				wakepaint();
 			}
 		});
+
 
 		glcontext.makeCurrent();
 		GL2 gl = glcontext.getGL().getGL2();
 		gl.setSwapInterval(1);
-		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+	
+		//gl.glColor3f(1.0f, 0.0f, 0.0f);
+//		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
 		gl.glClearDepth(1.0);
-		gl.glLineWidth(2);
+//		gl.glLineWidth(2);
 		gl.glEnable(GL.GL_DEPTH_TEST);
-		glcontext.release();
-
 		
+		glcontext.release();
+		runpaint.start();
 	}
 
 	protected void render() {
@@ -105,20 +122,23 @@ public class ShowImage extends ViewPart{
 				if ((glcanvas != null) && !glcanvas.isDisposed()) {
 					glcanvas.setCurrent();
 					glcontext.makeCurrent();
-					GL2 gl = glcontext.getGL().getGL2();
+					Rectangle rect=glcanvas.getClientArea();
+					int iWidth = rect.width;
+			        int iHeight =rect.height;
+			        int isize=Math.min(iWidth, iHeight);
+			        
+					GL2 gl = glcontext.getGL().getGL2();		
+					
+					gl.glClearColor(.3f, .5f, .8f, 1.0f);				
 					gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-					gl.glClearColor(.3f, .5f, .8f, 1.0f);
 					gl.glLoadIdentity();
-					gl.glTranslatef(0.0f, 0.0f, -10.0f);
-					// gl.glRotatef(0.15f * rot, 2.0f * rot, 10.0f * rot, 1.0f);
-					// gl.glRotatef(0.3f * rot, 3.0f * rot, 1.0f * rot, 1.0f);
-					gl.glViewport(0, 0, 250, 250);
-					GLU glu=new GLU(); ;
-					glu.gluOrtho2D(-120.0, 120.0, -125.0, 125.0);        //使坐标系统出现在GL里 
+
+					float pointsize=isize/30.0f;
 					 gl.glMatrixMode(GL2.GL_MODELVIEW);
-					gl.glColor3f(0.9f, 0.9f, 0.9f);
-					  gl.glPointSize(6.0f);      
+					
+					  gl.glPointSize(pointsize);      
 					drawTorus(gl);
+					
 					glcanvas.swapBuffers();
 					glcontext.release();
 				}
@@ -130,14 +150,19 @@ public class ShowImage extends ViewPart{
 		
 		gl.glBegin(GL2.GL_POINTS);
 		paintdate=mycalpara.getPaintdate();
+		System.err.println("paint");
+		System.err.println(paintdate[790][0]);
 		for (int i = 0; i < 812; i++) {
-			 rgb=RGBS(paintdate[i][0]*control.getAmplify()*-1);
+			 rgb=RGBS(paintdate[i][0]*mycalpara.getAmplify()*-1);
 			 //System.out.println(paintdate[i][0]);
 			 gl.glColor3f(rgb[0], rgb[1], rgb[2]);
 			// System.out.println(rgb[0]+"+"+rgb[1]+"+"+rgb[2]);
-			 gl.glVertex2f((float)MyCalculateParameter.paint_X[i]*148,(float)MyCalculateParameter.paint_Y[i]*148);
+			// gl.glVertex2f((float)MyCalculateParameter.paint_X[i]*48*pointsize,(float)MyCalculateParameter.paint_Y[i]*48*pointsize);
+			 gl.glVertex2f((float)MyCalculateParameter.paint_X[i]*48,(float)MyCalculateParameter.paint_Y[i]*48);
 			// //画点由glBegin(GL.GL_POINTS)开始，glEnd()结束
+			 System.err.println(MyCalculateParameter.paint_X[i]*48);
 		}
+		
 		gl.glEnd();
 
 	}
@@ -151,24 +176,32 @@ public class ShowImage extends ViewPart{
 		glcanvas.dispose();
 		super.dispose();
 	}
-
+	
+	public void wakepaint(){
+		
+		synchronized (runpaint) {
+			runpaint.notify();
+		}
+	}
 	public void runpaint() {
-		System.err.println("sss");
-		// TODO Auto-generated method stub
-		(new Thread() {
-			public void run() {
-				while ((glcanvas != null) && !glcanvas.isDisposed()) {
-					render();
-					try {
-						// don't make loop too tight, or not enough time
-						// to process window messages properly
-						sleep(1000);
-					} catch (InterruptedException interruptedexception) {
-						// we just quit on interrupt, so nothing required here
-					}
-				}
-			}
-		}).start();
+		
+		runpaint.start();
+//		// TODO Auto-generated method stub
+//		(new Thread() {
+//			public void run() {
+//				while ((glcanvas != null) && !glcanvas.isDisposed()) {
+//					render();
+//					try {
+//						// don't make loop too tight, or not enough time
+//						// to process window messages properly
+//						//sleep(500);
+//						wait();
+//					} catch (InterruptedException interruptedexception) {
+//						// we just quit on interrupt, so nothing required here
+//					}
+//				}
+//			}
+//		}).start();
 	}
 
 	/*
@@ -245,3 +278,40 @@ public class ShowImage extends ViewPart{
 	
 }
 
+class RunPaint extends Thread {
+	private ShowImage showimage;
+	private Calculate calculate;
+	//private Control control;
+	private MyCalculateParameter mycalpara;
+	public  RunPaint(ShowImage showimage,Control control){
+		this.showimage=showimage;
+		this.mycalpara=control.getMycalpara();
+		calculate=new Calculate();
+	}
+	
+	 public void run() {
+		 
+		 while(!isInterrupted()){
+			 if(mycalpara.isAllFlag()){
+				mycalpara.setPaintdate(calculate.cgls(mycalpara.getCirs(),
+						mycalpara.getB(), 40));
+			 }
+//				 mycalpara.changeCurrentIndex(true);	
+					showimage.render();	
+			 
+			synchronized (this) {
+					try {
+						// don't make loop too tight, or not enough time
+						// to process window messages properly
+						//sleep(500);
+						wait();
+					} catch (InterruptedException interruptedexception) {
+						// we just quit on interrupt, so nothing required here
+					}
+					
+			}
+	
+				}
+		 }
+ 
+}

@@ -25,6 +25,65 @@ public class MyConfigureModel{
 	private String kongText;
 	private String wuText;
 	
+	private String LocalIP;
+	private String LocalSock;
+	private String LocalState;
+	
+	private String AimIP;
+	private String AimPort;
+	
+	
+	
+	private boolean connectFlag=true;//true代表本地连接，false代表网络连接
+	
+	public boolean isConnectFlag() {
+		return connectFlag;
+	}
+
+	public void setConnectFlag(boolean connectFlag) {
+		this.connectFlag = connectFlag;
+	}
+	public String getLocalIP() {
+		return LocalIP;
+	}
+
+	public void setLocalIP(String localIP) {
+		this.LocalIP = localIP;
+	}
+
+	public String getLocalSock() {
+		return LocalSock;
+	}
+
+	public void setLocalSock(String localSock) {
+		LocalSock = localSock;
+	}
+
+	public String getLocalState() {
+		return LocalState;
+	}
+
+	public void setLocalState(String localState) {
+		LocalState = localState;
+	}
+	
+	public String getAimIP() {
+		return AimIP;
+	}
+
+	public void setAimIPText(String aimIP) {
+		AimIP = aimIP;
+	}
+
+	public String getAimPort() {
+		return AimPort;
+	}
+
+	public void setAimPort(String aimPort) {
+		AimPort = aimPort;
+	}
+
+	
 	
 	public MyConfigureModel(){
 		this.cirsText="";

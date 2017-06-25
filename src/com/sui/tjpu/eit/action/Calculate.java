@@ -1,33 +1,41 @@
 package com.sui.tjpu.eit.action;
 
+import com.sui.tjpu.eit.MyCalculateParameter;
+
 import Jama.Matrix;
 
 public class Calculate {
 
-	Matrix x = new Matrix(812, 1);
-	Matrix X;
-	Matrix d;
-	Matrix DT;
-	Matrix AT;
-	Matrix r;
-	Matrix normr2;
-	double[][] result;
-	double[] temp = new double[812];
-	Matrix Ad;
-	Matrix alpha;
-	Matrix s;
-	Matrix nor_new;
-	Matrix beta;
+	private Matrix x ;
+	private Matrix X;
+	private Matrix d;
+	private Matrix DT;
+	private Matrix AT;
+	private Matrix r;
+	private Matrix normr2;
+	private double[][] result;
+	private Matrix Ad;
+	private Matrix alpha;
+	private Matrix s;
+	private Matrix nor_new;
+	private Matrix beta;
 	Matrix alpha_temp, alpha_temp1, beta_temp;
-	double al_temp;
-
+	private double al_temp;
+    private MyCalculateParameter mycalpara;
+    
 	public Calculate(){
 		
+	}
+	
+	public Calculate(MyCalculateParameter mycalpara){
+		this.mycalpara=mycalpara;
+		AT = mycalpara.getCirs().transpose();
 	}
 	public Calculate(Matrix A) {
 		AT = A.transpose();
 	}
 
+	 
 /**
   *共轭梯度法
   *传入值：
@@ -40,9 +48,9 @@ public class Calculate {
   *
   */
 	public double[][] cgls(Matrix A, Matrix b, int k) {
-
+		AT = A.transpose();
 		// X = new Matrix(812, k);
-
+        x=new Matrix(zeros());
 		d = AT.times(b);
 		r = b.copy();
 		DT = d.transpose();
@@ -69,9 +77,42 @@ public class Calculate {
 		}
 
 		result = x.getArrayCopy();
-		
+		close();
+		System.err.println("cal");
+		for(int sl=790;sl<810;sl+=10){
+			
+			System.err.println(result[sl][0]);
+		}
 		return result;
 
 	}
 
+	void close(){
+		
+		 
+	  
+	        d=null;
+	    
+	        r=null;
+	        normr2=null;
+	        Ad=null;
+	        alpha=null;
+	        s=null;
+	        nor_new=null;
+	        beta=null;
+	     
+	        alpha_temp=null;
+	        alpha_temp1=null;
+	        beta_temp=null;
+	      
+	}
+	
+	public double[][] zeros(){
+		double[][] result=new double[812][1]; 
+		for(int i=0;i<812;i++){
+			result[i][0]=0;
+		}
+		return result;
+		
+	}
 }
