@@ -35,7 +35,9 @@ public class Show3D extends ViewPart {
 	/** Used to get OpenGL object that we need to access OpenGL functions. */
 	private GLContext glcontext;
 
-	
+	 double[][] paintdate;
+	 float[] rgb;
+	 
 	public Show3D() {
 		// TODO Auto-generated constructor stub
 		control = (Control) PlatformUI.getWorkbench()
@@ -69,12 +71,14 @@ public class Show3D extends ViewPart {
                 glcontext.makeCurrent();
                 GL2 gl = glcontext.getGL().getGL2();
                 gl.glViewport(0, 0, bounds.width, bounds.height);
+              
                 gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
                 gl.glLoadIdentity();
                 
                 GLU glu = new GLU();
-                glu.gluOrtho2D(0.0, 500.0, 0.0, 300.0); 
-                glu.gluPerspective(45.0f, fAspect, 0.5f, 400.0f);
+               // glu.gluOrtho2D(0.0, 500.0, 0.0, 300.0); 
+ //               glu.gluPerspective(45.0f, fAspect, 0.7f, 400.0f);
+                gl.glOrtho(-50, 50, -50, 50, -50, 50);
                 gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
                 gl.glLoadIdentity();
                 glcontext.release();
@@ -90,10 +94,13 @@ public class Show3D extends ViewPart {
 	        gl.setSwapInterval(1);
 	        gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	        gl.glColor3f(1.0f, 0.0f, 0.0f);
-	        gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+//	        gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
 	        gl.glClearDepth(1.0);
 //	        gl.glLineWidth(2);
 	        gl.glEnable(GL.GL_DEPTH_TEST);
+//	        gl.glDepthMask(GL.GL_FALSE);
+	        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); //指定混合函数  
+	        gl.glEnable(GL.GL_BLEND);     //启用混合状态  
 	        glcontext.release();
 	        
 		(new Thread() {
@@ -128,11 +135,18 @@ public class Show3D extends ViewPart {
 					 gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 	                    gl.glClearColor(.3f, .5f, .8f, 1.0f);
 	                    gl.glLoadIdentity();
-//	                    gl.glTranslatef(0.0f, 0.0f, -10.0f);
+	                    gl.glTranslatef(0.0f, 0.0f, -10.0f);
 	                    gl.glColor3f(0.9f, 0.9f, 0.9f);
-	                  	                    
-	                    gl.glPointSize(5.0f); // 设置点的大小  
+	                    gl.glRotatef(0f,0.5f,1.0f,0.5f);    
+	                	float pointsize=isize/30.0f;
+	                    gl.glPointSize(pointsize); // 设置点的大小  
+	                   
+//	                    gl.glTranslatef (-5.0f,-4.0f,-13.0f);  
+	                  
+	                    gl.glColor3f(1.0f, 1.0f, 1.0f);  
 	                    drawTorus(gl, 15);
+	                   
+	                    
 	                    glcanvas.swapBuffers();
 	                    glcontext.release();
 				}
@@ -141,42 +155,116 @@ public class Show3D extends ViewPart {
 	}
 
 	protected void drawTorus(GL2 gl,float pointsize) {
-		float red = (float) (Math.random() * 1.0f); // 随机红  
-		  
-        float green = (float) (Math.random() * 1.0f); // 随机绿  
-  
-        float blue = (float) (Math.random() * 1.0f); // 随机蓝  
-        
-        for (int i = 0; i < 50; i++) { // 画点  
-        	  
-            red -= .09f; // 红色值递减  
-  
-            green -= .12f; // 绿色值递减  
-  
-            blue -= .15f; // 蓝色值递减  
-  
-            if (red < 0.15) {  
-                red = 1.0f;  
-            }  
-  
-            if (green < 0.15) {  
-                green = 1.0f;  
-            }  
-  
-            if (blue < 0.15) {  
-                blue = 1.0f;  
-            }  
-  
-            gl.glColor3f(red, green, blue); // 设置GL的画图颜色，也就是画刷的颜色  
-  
-            gl.glBegin(GL.GL_POINTS);  
-  
-            gl.glVertex2i(i * 10, 150); // 画点由glBegin(GL.GL_POINTS)开始，glEnd()结束  
-  
-            gl.glEnd();  
-  
-        } 
+		
+		
+		 int j=0;
+			gl.glBegin(GL2.GL_POINTS);
+			paintdate=mycalpara.getPaintdate();
+			 gl.glPushMatrix();
+			for(j=0;j<50;j++){
+			   
+			for (int i = 0; i < 812; i++) {
+				 rgb=RGBS(paintdate[i][0]*mycalpara.getAmplify()*-1);
+				 //System.out.println(paintdate[i][0]);
+				// gl.glColor3f(rgb[0], rgb[1], rgb[2]);
+				 gl.glColor4f(rgb[0], rgb[1], rgb[2],0.5f);
+				// System.out.println(rgb[0]+"+"+rgb[1]+"+"+rgb[2]);
+				// gl.glVertex2f((float)MyCalculateParameter.paint_X[i]*48*pointsize,(float)MyCalculateParameter.paint_Y[i]*48*pointsize);
+				 //gl.glVertex2f((float)MyCalculateParameter.paint_X[i]*48,(float)MyCalculateParameter.paint_Y[i]*48);
+				 gl.glVertex3f((float)MyCalculateParameter.paint_X[i]*20,(float)MyCalculateParameter.paint_Y[i]*20, (float)j);// a0点  
+				// //画点由glBegin(GL.GL_POINTS)开始，glEnd()结束
+				
+			}
+			
+			 }			
 
+			 
+			 
+			 gl.glPopMatrix();  
+			gl.glEnd();
+
+			
+	}
+	
+	/*
+	 * 依据运算的值赋值颜色值
+	 */
+	public float[] RGBS(double  color){
+		float[] color_temp=new float[3];
+		if(color>200){
+			color_temp[0]=(float)135/255;
+			color_temp[1]=0;
+			color_temp[2]=0;
+		}else{
+			color_temp[0]=0f;
+			color_temp[1]=0f;
+			color_temp[2]=(float)135/255;
+		}
+//		if(color>0)
+//		{
+//			if(color<127)
+//			{
+//				color_temp[0]=(float) (127+color)/255;
+//				color_temp[1]=1f;
+//				color_temp[2]=(float)(127-color)/255;
+//			}
+//			else if(color<382)
+//			{
+//				color_temp[0]=1f;
+//				color_temp[1]=(float)(382-color)/255;
+//				color_temp[2]=0f;
+//			}
+//			else if(color<500)
+//			{
+//				color_temp[0]=(float) (637-color)/255;
+//				color_temp[1]=0f;
+//				color_temp[2]=0f;
+//				
+//			}
+//			else
+//			{
+//				color_temp[0]=(float)135/255;
+//				color_temp[1]=0;
+//				color_temp[2]=0;
+//			}
+//		}
+//		else if(color==0)
+//		{
+//			color_temp[0]=(float)127/255;
+//			color_temp[1]=color_temp[0];
+//			color_temp[2]=color_temp[0];
+//		}
+//		else {
+//			if(color>-127)
+//			{
+//				color_temp[0]=(float) (127+color)/255;
+//				color_temp[1]=1f;
+//				color_temp[2]=(float)(127-color)/255;
+//			}
+//			else if(color>-382)
+//			{
+//				color_temp[0]=0f;
+//				color_temp[1]=(float)(382-color)/255;
+//				color_temp[2]=1f;
+//			}
+//			else if(color>-500)
+//			{
+//				color_temp[0]=0;
+//				color_temp[1]=0f;
+//				color_temp[2]=(float) (637-color)/255;
+//			}
+//			else
+//			{
+//				color_temp[0]=0f;
+//				color_temp[1]=0f;
+//				color_temp[2]=(float)135/255;
+//			}
+//		}
+//		if(color_temp[0]==0&&color_temp[1]==0&&color_temp[2]==0)
+//		{
+//			System.out.println(color);
+//		}
+		return color_temp;
 	}
 	
 	public void setFocus() {

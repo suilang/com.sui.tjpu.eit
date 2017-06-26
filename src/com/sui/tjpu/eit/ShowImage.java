@@ -160,7 +160,7 @@ public class ShowImage extends ViewPart{
 			// gl.glVertex2f((float)MyCalculateParameter.paint_X[i]*48*pointsize,(float)MyCalculateParameter.paint_Y[i]*48*pointsize);
 			 gl.glVertex2f((float)MyCalculateParameter.paint_X[i]*48,(float)MyCalculateParameter.paint_Y[i]*48);
 			// //画点由glBegin(GL.GL_POINTS)开始，glEnd()结束
-			 System.err.println(MyCalculateParameter.paint_X[i]*48);
+			
 		}
 		
 		gl.glEnd();
