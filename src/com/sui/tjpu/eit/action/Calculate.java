@@ -78,11 +78,8 @@ public class Calculate {
 
 		result = x.getArrayCopy();
 		close();
-		System.err.println("cal");
-		for(int sl=790;sl<810;sl+=10){
-			
-			System.err.println(result[sl][0]);
-		}
+		
+		
 		return result;
 
 	}

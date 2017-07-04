@@ -150,8 +150,7 @@ public class ShowImage extends ViewPart{
 		
 		gl.glBegin(GL2.GL_POINTS);
 		paintdate=mycalpara.getPaintdate();
-		System.err.println("paint");
-		System.err.println(paintdate[790][0]);
+		
 		for (int i = 0; i < 812; i++) {
 			 rgb=RGBS(paintdate[i][0]*mycalpara.getAmplify()*-1);
 			 //System.out.println(paintdate[i][0]);
