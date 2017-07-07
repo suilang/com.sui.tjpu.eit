@@ -21,6 +21,7 @@ public class ConnectLocal extends AbstractHandler implements IHandler {
 		Configure config = (Configure) page.findView(Configure.ID);
 		if(!config.getMyconf().isConnectFlag()){
 			config.getMyconf().setConnectFlag(true);
+			config.changeComposite(true);
 		}
 		return null;
 	}

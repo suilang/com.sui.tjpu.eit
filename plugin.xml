@@ -80,6 +80,7 @@
             <command
                   commandId="com.sui.tjpu.eit.commands.Local"
                   label="Local"
+                  mode="FORCE_TEXT"
                   style="radio">
             </command>
             <command
@@ -158,7 +159,7 @@
                id="com.sui.tjpu.eit.control"
                minimized="false"
                moveable="true"
-               ratio="0.65f"
+               ratio="0.35f"
                relationship="bottom"
                relative="com.sui.tjpu.eit.configure"
                showTitle="true"
@@ -170,7 +171,8 @@
                minimized="false"
                ratio="0.5f"
                relationship="bottom"
-               relative="com.sui.tjpu.eit.showimage">
+               relative="com.sui.tjpu.eit.showimage"
+               visible="false">
          </view>
       </perspectiveExtension>
    </extension>

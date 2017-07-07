@@ -19,6 +19,7 @@ public class ConnectOnline extends AbstractHandler implements IHandler {
 		Configure config = (Configure) page.findView(Configure.ID);
 		if(config.getMyconf().isConnectFlag()){
 			config.getMyconf().setConnectFlag(false);
+			config.changeComposite(false);
 		}
 		return null;
 	}

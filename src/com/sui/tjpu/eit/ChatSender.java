@@ -9,6 +9,10 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
+
 //群聊发送端
 public class ChatSender extends Thread {
 
@@ -22,6 +26,11 @@ public class ChatSender extends Thread {
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Shell parentShell = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getShell();
+			MessageDialog.openWarning(parentShell, "Warning",
+					"目标IP无效，请重新输入");
+			return;
 		}
 		this.AimPort = Integer.parseInt(AimPort);
 	}
@@ -32,6 +41,7 @@ public class ChatSender extends Thread {
 
 	public void run() {
 		try {
+			System.err.println("启动发送线程");
 			// 建立udp的服务
 			DatagramSocket socket = new DatagramSocket();
 			// 准备数据，把数据封装到数据包中发送
@@ -46,12 +56,21 @@ public class ChatSender extends Thread {
 						data.getBytes().length, AimIP, AimPort);
 				// 把数据发送出去
 				socket.send(packet);
+				System.err.println("fasongshuju");
+				try {
+					sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			// 关闭 资源
 			socket.close();
+			System.err.println("关闭发送线程");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
 
 }

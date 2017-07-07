@@ -17,6 +17,8 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import org.eclipse.ui.PlatformUI;
+
 
 
 /**
@@ -29,19 +31,41 @@ public class Online  {
 	private DatagramSocket  socket;
 	String AimIP;
 	String AimPort;
-	public Online(MyConfigureModel myconfig){
-		this.AimIP=myconfig.getAimIP();
-		this.AimPort=myconfig.getAimPort();
+	ChatReceive chatReceive;
+	ChatSender chatSender;
+	MyConfigureModel myconfig;
+	Control control;
+	MyCalculateParameter mycalpara;
+	private boolean startflag=false;
+	
+	
+	public boolean isStartflag() {
+		return startflag;
 	}
 
-	 void OnlineStrat()  throws IOException {
-			ChatReceive chatReceive = new ChatReceive(AimPort);
+	public void setStartflag(boolean startflag) {
+		this.startflag = startflag;
+	}
+
+	public Online(MyConfigureModel myconfig){
+		control = (Control) PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage()
+				.findView("com.sui.tjpu.eit.control");
+		mycalpara= control.getMycalpara();
+		
+		this.AimIP=myconfig.getAimIP();
+		this.AimPort=myconfig.getAimPort();
+		this.myconfig=myconfig;
+	}
+
+	 public void OnlineStrat()  throws IOException {
+		 startflag=true;
+		 System.err.println("´ò¿ªÍøÂç¶Ë¿Ú");
+			 chatReceive = new ChatReceive(mycalpara,AimPort);
 			chatReceive.start();
 			
-			ChatSender chatSender = new ChatSender(AimIP,AimPort);
-			chatSender.start();
-	
-		
+			 chatSender = new ChatSender(AimIP,AimPort);
+			chatSender.start();		
 	}
 
 	
@@ -101,5 +125,15 @@ public class Online  {
 		return ip;
 	}
 
+	public void stopconnect(){
+		startflag=false;
+		try {
+			chatReceive.onlineReceiveStop();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		chatSender.onlineSendStop();
+	}
 
 }
