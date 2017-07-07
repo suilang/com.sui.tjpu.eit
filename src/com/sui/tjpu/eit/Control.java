@@ -279,10 +279,29 @@ public class Control extends ViewPart {
 		
 		
 		/******************************ÍøÂçÏÔÊ¾¿ØÖÆ****************************************/
-		
+		compositeonline = new Group(composite_all, SWT.NONE);
+		 compositeonline.setLayout(new FormLayout());
+		 		// TODO Auto-generated method stub
+		 			
+		 			
+		 			Composite composite_3 = new Composite(compositeonline, SWT.NONE);
+		 			FormData fd_composite_3 = new FormData();
+		 			fd_composite_3.top = new FormAttachment(0);
+		 			fd_composite_3.left = new FormAttachment(0, 10);
+		 			fd_composite_3.right = new FormAttachment(100, -13);
+		 			composite_3.setLayoutData(fd_composite_3);
+		 			
+		 			Button setKongButton_1 = new Button(composite_3, SWT.NONE);
+		 			setKongButton_1.setBounds(0, 10, 80, 27);
+		 			setKongButton_1.setText("\u91C7\u7A7A\u573A");
+		 			
+		 			Button btnNewButton_2 = new Button(composite_3, SWT.NONE);
+		 			btnNewButton_2.setBounds(121, 10, 80, 27);
+		 			btnNewButton_2.setText("\u91C7\u7269\u573A");
+		 			
 		
 
-		mainsl.topControl = compositelocal;
+		mainsl.topControl = compositeonline;
 	}
 
 	/**

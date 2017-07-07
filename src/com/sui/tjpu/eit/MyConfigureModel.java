@@ -32,17 +32,17 @@ public class MyConfigureModel {
 	private String onlinekongText;
 	private String onlinecirsText;
 
-	private boolean connectFlag = true;// true代表本地连接，false代表网络连接
+	//private boolean connectFlag = true;// true代表本地连接，false代表网络连接
 
-	
+	 public static boolean connectFlag = true;// true代表本地连接，false代表网络连接
 
-	public boolean isConnectFlag() {
-		return connectFlag;
-	}
-
-	public void setConnectFlag(boolean connectFlag) {
-		this.connectFlag = connectFlag;
-	}
+//	public boolean isConnectFlag() {
+//		return connectFlag;
+//	}
+//
+//	public void setConnectFlag(boolean connectFlag) {
+//		this.connectFlag = connectFlag;
+//	}
 
 	public String getLocalIP() {
 		return LocalIP;

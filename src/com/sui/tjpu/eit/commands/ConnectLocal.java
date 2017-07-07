@@ -11,6 +11,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.sui.tjpu.eit.Configure;
 import com.sui.tjpu.eit.Control;
+import com.sui.tjpu.eit.MyConfigureModel;
 
 public class ConnectLocal extends AbstractHandler implements IHandler {
 
@@ -19,8 +20,8 @@ public class ConnectLocal extends AbstractHandler implements IHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		IWorkbenchPage page = window.getActivePage();
 		Configure config = (Configure) page.findView(Configure.ID);
-		if(!config.getMyconf().isConnectFlag()){
-			config.getMyconf().setConnectFlag(true);
+		if(MyConfigureModel.connectFlag == false){
+			MyConfigureModel.connectFlag = true;
 			config.changeComposite(true);
 		}
 		return null;

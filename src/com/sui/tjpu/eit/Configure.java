@@ -95,7 +95,6 @@ public class Configure extends ViewPart {
 		// TODO Auto-generated method stub
 
 		myconf = new MyConfigureModel();
-		MyProoerty.setMyconf(myconf);
 		// ¶ÑÕ»²¼¾Ö
 		composite_all = new Composite(parent, SWT.NONE);
 		mainsl = new StackLayout();

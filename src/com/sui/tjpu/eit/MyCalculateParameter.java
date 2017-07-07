@@ -26,10 +26,10 @@ public class MyCalculateParameter {
 	private int amplify;
 	private int currentIndex = 0; // 当前帧数
 	private int totalIndex = 1; // 总帧数
-	private MyConfigureModel myconf = MyProoerty.getMyconf();
+
 	static double[] paint_X, paint_Y;
 
-	private double[][] onlineBuff;
+	
 
 	private boolean CirsFlag = false;
 	private boolean kongFlag = false;
@@ -43,19 +43,14 @@ public class MyCalculateParameter {
 	private Matrix onlineCirs;
 	private Matrix onlinekong;
 	private double[][] onlinewu;
+	private double[][] onlineBuff;
 	private boolean onlineCirsFlag = false;
 	private boolean onlinekongFlag = false;
 	private boolean onlinewuFlag = false;
 	private boolean onlineallFlag = false;
 	private boolean setkongFlag = false;// 是否采集空场，若是，则标志位为true，网络连接数据放置到空场中，并将空场存储
 
-	public boolean isSetkongFlag() {
-		return setkongFlag;
-	}
-
-	public void setSetkongFlag(boolean setkongFlag) {
-		this.setkongFlag = setkongFlag;
-	}
+	
 
 	private Control control;
 
@@ -76,7 +71,7 @@ public class MyCalculateParameter {
 	 */
 	public Matrix getB() {
 
-		if (myconf.isConnectFlag() == true) {
+		if (MyConfigureModel.connectFlag == true) {
 			b = new Matrix((double[][]) wu.get(currentIndex));
 			b = b.minus(kong);
 
@@ -148,7 +143,7 @@ public class MyCalculateParameter {
 	}
 
 	private void JudgeAll() {
-		if (CirsFlag = true && kongFlag == true && wuFlag == true) {
+		if (setCirsFlag(true && kongFlag == true && wuFlag == true)) {
 			allFlag = true;
 			control.ParamAllDone();
 		}
@@ -228,7 +223,7 @@ public class MyCalculateParameter {
 
 	public void setCirs(Matrix cirs) {
 		this.Cirs = cirs;
-		CirsFlag = true;
+		setCirsFlag(true);
 		JudgeAll();
 	}
 
@@ -271,5 +266,22 @@ public class MyCalculateParameter {
 	public void setPaintdate(double[][] paintdate) {
 		this.paintdate = paintdate;
 
+	}
+
+	public boolean isCirsFlag() {
+		return CirsFlag;
+	}
+
+	public boolean setCirsFlag(boolean cirsFlag) {
+		CirsFlag = cirsFlag;
+		return cirsFlag;
+	}
+	
+	public boolean isSetkongFlag() {
+		return setkongFlag;
+	}
+
+	public void setSetkongFlag(boolean setkongFlag) {
+		this.setkongFlag = setkongFlag;
 	}
 }
