@@ -20,9 +20,11 @@ public class ConnectLocal extends AbstractHandler implements IHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		IWorkbenchPage page = window.getActivePage();
 		Configure config = (Configure) page.findView(Configure.ID);
+		Control control = (Control) page.findView(Control.ID);
 		if(MyConfigureModel.connectFlag == false){
 			MyConfigureModel.connectFlag = true;
 			config.changeComposite(true);
+			control.changeComposite(true);
 		}
 		return null;
 	}

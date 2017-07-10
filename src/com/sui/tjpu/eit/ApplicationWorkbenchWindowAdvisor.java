@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -46,7 +47,15 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
         configurer.setInitialSize(new Point(900, 700));
         configurer.setShowCoolBar(false);
-        configurer.setShowStatusLine(false);
+        configurer.setShowStatusLine(true);
+//        PlatformUI.getPreferenceStore().setDefault(
+//        	IWorkbenchPreferenceConstants.ENABLE_ANIMATIONS, true);
+        	    PlatformUI.getPreferenceStore().setDefault(
+        	      IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS,
+        	     false);
+//        	    PlatformUI.getPreferenceStore().setDefault(
+//        		       IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR,
+//        	       IWorkbenchPreferenceConstants.TOP_RIGHT);
         
     }
     

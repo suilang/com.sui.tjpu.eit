@@ -39,6 +39,8 @@ public class ChatSender extends Thread {
 		exit = false;
 	}
 
+
+	
 	public void run() {
 		try {
 			System.err.println("启动发送线程");
@@ -55,14 +57,22 @@ public class ChatSender extends Thread {
 				packet = new DatagramPacket(data.getBytes(),
 						data.getBytes().length, AimIP, AimPort);
 				// 把数据发送出去
-				socket.send(packet);
-				System.err.println("fasongshuju");
-				try {
-					sleep(3000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				
+				synchronized (this) {
+					try {
+						// don't make loop too tight, or not enough time
+						// to process window messages properly
+						//sleep(500);
+						wait();
+					} catch (InterruptedException interruptedexception) {
+						// we just quit on interrupt, so nothing required here
+					}
 				}
+				if(exit==false){
+					break;
+				}
+				socket.send(packet);
+				System.err.println("发送数据");
 			}
 			// 关闭 资源
 			socket.close();

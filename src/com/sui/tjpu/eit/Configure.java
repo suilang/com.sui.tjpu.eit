@@ -1,7 +1,9 @@
 package com.sui.tjpu.eit;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -49,11 +51,21 @@ public class Configure extends ViewPart {
 	private MyCalculateParameter mycalpara;
 	private Online online;
 
+	
+
 	// 面板变量
 	Composite composite_all;
 	StackLayout mainsl;
 	Composite composite1;
 	Composite composite2;
+	
+	public Online getOnline() {
+		return online;
+	}
+
+	public void setOnline(Online online) {
+		this.online = online;
+	}
 
 	public MyConfigureModel getMyconf() {
 		return myconf;
@@ -85,6 +97,7 @@ public class Configure extends ViewPart {
 		control = (Control) PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage()
 				.findView("com.sui.tjpu.eit.control");
+		control.setConfig(this);
 		mycalpara = control.getMycalpara();
 		LoadXY loadxy = new LoadXY();
 		MyCalculateParameter.paint_X = loadxy.position_x();
@@ -433,7 +446,7 @@ public class Configure extends ViewPart {
 				});
 	}
 
-	/*
+	/**
 	 * 改变控制面板 true：本地连接 false：网络连接
 	 */
 	public void changeComposite(boolean flag) {
@@ -445,6 +458,19 @@ public class Configure extends ViewPart {
 		composite_all.layout(true);
 	}
 
+	/**
+	 * 更新当前帧数
+	 */
+	public void updatekong2Text() {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			public void run() {
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");//设置日期格式
+				String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+				kong2Text.setText("kong"+date);
+			}
+		});
+	}
+	
 	public void setFocus() {
 		// TODO Auto-generated method stub
 

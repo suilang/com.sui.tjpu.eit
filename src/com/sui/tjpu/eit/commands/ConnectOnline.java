@@ -9,6 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.sui.tjpu.eit.Configure;
+import com.sui.tjpu.eit.Control;
 import com.sui.tjpu.eit.MyConfigureModel;
 
 public class ConnectOnline extends AbstractHandler implements IHandler {
@@ -18,9 +19,11 @@ public class ConnectOnline extends AbstractHandler implements IHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		IWorkbenchPage page = window.getActivePage();
 		Configure config = (Configure) page.findView(Configure.ID);
+		Control control = (Control) page.findView(Control.ID);
 		if(MyConfigureModel.connectFlag == true){
 			MyConfigureModel.connectFlag = false;
 			config.changeComposite(false);
+			control.changeComposite(false);
 		}
 		return null;
 	}

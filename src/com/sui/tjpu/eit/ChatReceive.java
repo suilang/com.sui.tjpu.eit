@@ -6,6 +6,8 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
+import Jama.Matrix;
+
 
 public class ChatReceive extends Thread {
 	
@@ -13,6 +15,16 @@ public class ChatReceive extends Thread {
 	boolean flag = true;
 	DatagramSocket socket;
 	MyCalculateParameter mycalpara;
+	private boolean kongFlag = false;// 是否采集空场，若是，则标志位为true，网络连接数据放置到空场中，并将空场存储
+	
+	public boolean iskongFlag() {
+		return kongFlag;
+	}
+
+	public void setkongFlag(boolean kongFlag) {
+		this.kongFlag = kongFlag;
+	}
+
 	public ChatReceive(String AimPort){
 		this.Aimport=Integer.parseInt(AimPort);
 	}
@@ -73,11 +85,18 @@ public class ChatReceive extends Thread {
 		 
 		 double[][] buff=new double[208][1];
 		 for(i=0;i<416;i+=2){
-			 buff[i/2][0]=0;
-			 buff[i/2][0]=(double)((temp[i]&0xff)*256)+(temp[i+1]&0xff);
+			 
+			 buff[i/2][0]=(double)(((temp[i]&0xff)*256)+(temp[i+1]&0xff))*3.3/65535;
 		 }
-		 
-		 mycalpara.setOnlineBuff(buff);
+		 if(kongFlag==true){
+			 mycalpara.setOnlinekong(new Matrix(buff));
+			 kongFlag=false;
+		 }
+		 else{
+			 mycalpara.setOnlinewu(buff);
+			 mycalpara.JudgeOnlineAll();
+		 }
+		
 		 
 
 		 

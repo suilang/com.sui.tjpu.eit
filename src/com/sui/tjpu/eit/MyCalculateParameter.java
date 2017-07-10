@@ -8,8 +8,12 @@ import Jama.Matrix;
 /**
  * 描述：重建图像运算参数以及加载标志位，对应离线重建，标志位指示各参数加载完成，可以进行运算。
  * 
- * Cirs：灵敏度矩阵，Matrix类型 kong：空场矩阵，Matrix类型 wu：物场矩阵列表，ArrayList类型
- * CirsFlag：灵敏度矩阵加载完成标志位，boolean类型 kongFlag：空场矩阵加载完成标志位，boolean类型
+ * Cirs：灵敏度矩阵，Matrix类型
+ *  kong：空场矩阵，Matrix类型 
+ *  wu：物场矩阵列表，ArrayList类型
+ * 
+ * CirsFlag：灵敏度矩阵加载完成标志位，boolean类型 
+ * kongFlag：空场矩阵加载完成标志位，boolean类型
  * wuFlag：物场矩阵列表加载完成标志位，boolean类型
  * 
  * @author 张鹏程
@@ -21,7 +25,7 @@ public class MyCalculateParameter {
 	private Matrix kong;
 	private ArrayList wu;
 	private double[][] paintdate;
-	private Matrix b;
+	private Matrix b;  //物场与空场之差
 	private int Ite_number;
 	private int amplify;
 	private int currentIndex = 0; // 当前帧数
@@ -48,7 +52,7 @@ public class MyCalculateParameter {
 	private boolean onlinekongFlag = false;
 	private boolean onlinewuFlag = false;
 	private boolean onlineallFlag = false;
-	private boolean setkongFlag = false;// 是否采集空场，若是，则标志位为true，网络连接数据放置到空场中，并将空场存储
+
 
 	
 
@@ -76,7 +80,7 @@ public class MyCalculateParameter {
 			b = b.minus(kong);
 
 		} else {
-			b = new Matrix(onlineBuff);
+			b = new Matrix(onlinewu);
 			b = b.minus(onlinekong);
 		}
 		return b;
@@ -143,9 +147,19 @@ public class MyCalculateParameter {
 	}
 
 	private void JudgeAll() {
-		if (setCirsFlag(true && kongFlag == true && wuFlag == true)) {
+		if (CirsFlag==true && kongFlag == true && wuFlag == true) {
 			allFlag = true;
 			control.ParamAllDone();
+		}
+	}
+	
+	/**
+	 * 检测网络传输参数是否加载完成，完成后进行绘图
+	 */
+	public void JudgeOnlineAll() {
+		if (onlineCirsFlag==true && onlinekongFlag == true && onlinewuFlag == true) {
+			onlineallFlag = true;
+			control.onlineParamAllDone();
 		}
 	}
 
@@ -174,6 +188,7 @@ public class MyCalculateParameter {
 	public void setOnlinekong(Matrix onlinekong) {
 		this.onlinekong = onlinekong;
 		onlinekongFlag = true;
+		
 	}
 
 	public double[][] getOnlinewu() {
@@ -277,11 +292,5 @@ public class MyCalculateParameter {
 		return cirsFlag;
 	}
 	
-	public boolean isSetkongFlag() {
-		return setkongFlag;
-	}
-
-	public void setSetkongFlag(boolean setkongFlag) {
-		this.setkongFlag = setkongFlag;
-	}
+	
 }

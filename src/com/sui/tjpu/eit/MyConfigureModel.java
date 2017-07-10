@@ -34,6 +34,9 @@ public class MyConfigureModel {
 
 	//private boolean connectFlag = true;// true代表本地连接，false代表网络连接
 
+	/**
+	 * true代表本地连接，false代表网络连接
+	 */
 	 public static boolean connectFlag = true;// true代表本地连接，false代表网络连接
 
 //	public boolean isConnectFlag() {
